@@ -1,0 +1,83 @@
+Injury Cause Donuts = 
+VAR _Total = [Recorded Injuries]
+VAR _Contact = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Contact")
+VAR _NonContact = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Non-contact")
+VAR _Overuse = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Overuse")
+VAR _Fall = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Fall")
+VAR _ContactPct = ROUND(DIVIDE(_Contact, _Total, 0) * 100, 1)
+VAR _NonContactPct = ROUND(DIVIDE(_NonContact, _Total, 0) * 100, 1)
+VAR _OverusePct = ROUND(DIVIDE(_Overuse, _Total, 0) * 100, 1)
+VAR _FallPct = ROUND(DIVIDE(_Fall, _Total, 0) * 100, 1)
+VAR _Circ = 251.33
+VAR _ContactOff = ROUND(_Circ * (1 - _ContactPct/100), 2)
+VAR _NonContactOff = ROUND(_Circ * (1 - _NonContactPct/100), 2)
+VAR _OveruseOff = ROUND(_Circ * (1 - _OverusePct/100), 2)
+VAR _FallOff = ROUND(_Circ * (1 - _FallPct/100), 2)
+RETURN
+"<style>
+  .cd{font-family:Segoe UI,sans-serif;padding:8px 12px;width:100%;height:100%}
+  .cd-t{font-size:14px;font-weight:800;color:#1a2b4a;margin-bottom:10px}
+  .cd-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cd-card{background:#f3f5f7;border-radius:12px;padding:14px 10px;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .cd-svg{width:100px;height:100px}
+  .cd-center{font-size:22px}
+  .cd-name{font-size:12px;font-weight:700;color:#1a2b4a;margin-top:6px}
+  .cd-pct{font-size:18px;font-weight:800;color:#1a2b4a;margin-top:2px}
+  .cd-val{font-size:11px;color:#8895a7;font-weight:500;margin-top:1px}
+  .track{fill:none;stroke:#e0e4e9;stroke-width:8}
+  .fill{fill:none;stroke-width:8;stroke-linecap:round}
+  .icon{font-size:20px}
+</style>
+<div class='cd'>
+  <div class='cd-t'>Injuries by Cause</div>
+  <div class='cd-grid'>
+    <div class='cd-card'>
+      <svg class='cd-svg' viewBox='0 0 100 100'>
+        <circle class='track' cx='50' cy='50' r='40'/>
+        <circle class='fill' cx='50' cy='50' r='40' stroke='#1a2b4a'
+          stroke-dasharray='" & _Circ & "' stroke-dashoffset='" & _ContactOff & "'
+          transform='rotate(-90 50 50)'/>
+        <text x='50' y='56' text-anchor='middle' class='icon'>💥</text>
+      </svg>
+      <div class='cd-name'>Contact</div>
+      <div class='cd-pct'>" & FORMAT(_ContactPct, "0.0") & "%</div>
+      <div class='cd-val'>" & FORMAT(_Contact, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+    <div class='cd-card'>
+      <svg class='cd-svg' viewBox='0 0 100 100'>
+        <circle class='track' cx='50' cy='50' r='40'/>
+        <circle class='fill' cx='50' cy='50' r='40' stroke='#244181'
+          stroke-dasharray='" & _Circ & "' stroke-dashoffset='" & _NonContactOff & "'
+          transform='rotate(-90 50 50)'/>
+        <text x='50' y='56' text-anchor='middle' class='icon'>🏃</text>
+      </svg>
+      <div class='cd-name'>Non-contact</div>
+      <div class='cd-pct'>" & FORMAT(_NonContactPct, "0.0") & "%</div>
+      <div class='cd-val'>" & FORMAT(_NonContact, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+    <div class='cd-card'>
+      <svg class='cd-svg' viewBox='0 0 100 100'>
+        <circle class='track' cx='50' cy='50' r='40'/>
+        <circle class='fill' cx='50' cy='50' r='40' stroke='#3a62a8'
+          stroke-dasharray='" & _Circ & "' stroke-dashoffset='" & _OveruseOff & "'
+          transform='rotate(-90 50 50)'/>
+        <text x='50' y='56' text-anchor='middle' class='icon'>🔄</text>
+      </svg>
+      <div class='cd-name'>Overuse</div>
+      <div class='cd-pct'>" & FORMAT(_OverusePct, "0.0") & "%</div>
+      <div class='cd-val'>" & FORMAT(_Overuse, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+    <div class='cd-card'>
+      <svg class='cd-svg' viewBox='0 0 100 100'>
+        <circle class='track' cx='50' cy='50' r='40'/>
+        <circle class='fill' cx='50' cy='50' r='40' stroke='#5a85c8'
+          stroke-dasharray='" & _Circ & "' stroke-dashoffset='" & _FallOff & "'
+          transform='rotate(-90 50 50)'/>
+        <text x='50' y='56' text-anchor='middle' class='icon'>⬇️</text>
+      </svg>
+      <div class='cd-name'>Fall</div>
+      <div class='cd-pct'>" & FORMAT(_FallPct, "0.0") & "%</div>
+      <div class='cd-val'>" & FORMAT(_Fall, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+  </div>
+</div>"
