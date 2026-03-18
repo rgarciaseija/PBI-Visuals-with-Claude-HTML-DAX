@@ -1,0 +1,69 @@
+Sport Distribution Visual = 
+VAR _Total = [Players]
+VAR _Football = CALCULATE([Players], DimClub[Sport] = "Football")
+VAR _Athletics = CALCULATE([Players], DimClub[Sport] = "Athletics")
+VAR _Basketball = CALCULATE([Players], DimClub[Sport] = "Basketball")
+VAR _Boxing = CALCULATE([Players], DimClub[Sport] = "Boxing")
+VAR _Tennis = CALCULATE([Players], DimClub[Sport] = "Tennis")
+VAR _FootPct = ROUND(DIVIDE(_Football, _Total, 0) * 100, 1)
+VAR _AthPct = ROUND(DIVIDE(_Athletics, _Total, 0) * 100, 1)
+VAR _BaskPct = ROUND(DIVIDE(_Basketball, _Total, 0) * 100, 1)
+VAR _BoxPct = ROUND(DIVIDE(_Boxing, _Total, 0) * 100, 1)
+VAR _TenPct = ROUND(DIVIDE(_Tennis, _Total, 0) * 100, 1)
+RETURN
+"<style>
+  .sd{font-family:Segoe UI,sans-serif;padding:8px 14px;width:100%;height:100%}
+  .sd-t{font-size:14px;font-weight:800;color:#1a2b4a;margin-bottom:8px}
+  .sd-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .sd-icon{font-size:14px;width:22px;text-align:center;flex-shrink:0}
+  .sd-info{flex:1;min-width:0}
+  .sd-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
+  .sd-name{font-size:12px;font-weight:700;color:#1a2b4a}
+  .sd-pct{font-size:12px;font-weight:800;color:#1a2b4a}
+  .sd-track{width:100%;height:9px;background:#e8ecf0;border-radius:5px;overflow:hidden}
+  .sd-fill{height:100%;border-radius:5px}
+  .sd-sub{font-size:12px;color:#8895a7;font-weight:500;margin-top:2px}
+</style>
+<div class='sd'>
+  <div class='sd-t'>Distribution of Players by Sport</div>
+  <div class='sd-row'>
+    <div class='sd-icon'>⚽</div>
+    <div class='sd-info'>
+      <div class='sd-top'><span class='sd-name'>Football</span><span class='sd-pct'>" & FORMAT(_FootPct, "0.0") & "%</span></div>
+      <div class='sd-track'><div class='sd-fill' style='width:" & _FootPct & "%;background:linear-gradient(90deg,#1a2b4a,#244181)'></div></div>
+      <div class='sd-sub'>" & FORMAT(_Football, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+  </div>
+  <div class='sd-row'>
+    <div class='sd-icon'>🏃</div>
+    <div class='sd-info'>
+      <div class='sd-top'><span class='sd-name'>Athletics</span><span class='sd-pct'>" & FORMAT(_AthPct, "0.0") & "%</span></div>
+      <div class='sd-track'><div class='sd-fill' style='width:" & _AthPct & "%;background:linear-gradient(90deg,#244181,#2d5fce)'></div></div>
+      <div class='sd-sub'>" & FORMAT(_Athletics, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+  </div>
+  <div class='sd-row'>
+    <div class='sd-icon'>🏀</div>
+    <div class='sd-info'>
+      <div class='sd-top'><span class='sd-name'>Basketball</span><span class='sd-pct'>" & FORMAT(_BaskPct, "0.0") & "%</span></div>
+      <div class='sd-track'><div class='sd-fill' style='width:" & _BaskPct & "%;background:linear-gradient(90deg,#2d5fce,#3a72d6)'></div></div>
+      <div class='sd-sub'>" & FORMAT(_Basketball, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+  </div>
+  <div class='sd-row'>
+    <div class='sd-icon'>🥊</div>
+    <div class='sd-info'>
+      <div class='sd-top'><span class='sd-name'>Boxing</span><span class='sd-pct'>" & FORMAT(_BoxPct, "0.0") & "%</span></div>
+      <div class='sd-track'><div class='sd-fill' style='width:" & _BoxPct & "%;background:linear-gradient(90deg,#3a72d6,#5a8fe0)'></div></div>
+      <div class='sd-sub'>" & FORMAT(_Boxing, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+  </div>
+  <div class='sd-row'>
+    <div class='sd-icon'>🎾</div>
+    <div class='sd-info'>
+      <div class='sd-top'><span class='sd-name'>Tennis</span><span class='sd-pct'>" & FORMAT(_TenPct, "0.0") & "%</span></div>
+      <div class='sd-track'><div class='sd-fill' style='width:" & _TenPct & "%;background:linear-gradient(90deg,#5a8fe0,#7aa8eb)'></div></div>
+      <div class='sd-sub'>" & FORMAT(_Tennis, "#,0") & " of " & FORMAT(_Total, "#,0") & "</div>
+    </div>
+  </div>
+</div>"
