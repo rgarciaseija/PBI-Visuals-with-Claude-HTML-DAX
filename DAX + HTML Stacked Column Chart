@@ -1,0 +1,92 @@
+Injury Cause Gender Stacked Chart = 
+VAR _Total = [Recorded Injuries]
+// Contact
+VAR _ContF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Contact", DimPlayer[Gender] = "Female")
+VAR _ContM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Contact", DimPlayer[Gender] = "Male")
+VAR _ContT = _ContF + _ContM
+// Non-contact
+VAR _NcF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Non-contact", DimPlayer[Gender] = "Female")
+VAR _NcM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Non-contact", DimPlayer[Gender] = "Male")
+VAR _NcT = _NcF + _NcM
+// Overuse
+VAR _OvF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Overuse", DimPlayer[Gender] = "Female")
+VAR _OvM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Overuse", DimPlayer[Gender] = "Male")
+VAR _OvT = _OvF + _OvM
+// Fall
+VAR _FaF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Fall", DimPlayer[Gender] = "Female")
+VAR _FaM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Fall", DimPlayer[Gender] = "Male")
+VAR _FaT = _FaF + _FaM
+// Max for scaling
+VAR _Max = MAX(_ContT, MAX(_NcT, MAX(_OvT, _FaT)))
+VAR _Scale = 150
+VAR _HContF = ROUND(DIVIDE(_ContF, _Max, 0) * _Scale, 0)
+VAR _HContM = ROUND(DIVIDE(_ContM, _Max, 0) * _Scale, 0)
+VAR _HNcF = ROUND(DIVIDE(_NcF, _Max, 0) * _Scale, 0)
+VAR _HNcM = ROUND(DIVIDE(_NcM, _Max, 0) * _Scale, 0)
+VAR _HOvF = ROUND(DIVIDE(_OvF, _Max, 0) * _Scale, 0)
+VAR _HOvM = ROUND(DIVIDE(_OvM, _Max, 0) * _Scale, 0)
+VAR _HFaF = ROUND(DIVIDE(_FaF, _Max, 0) * _Scale, 0)
+VAR _HFaM = ROUND(DIVIDE(_FaM, _Max, 0) * _Scale, 0)
+RETURN
+"<style>
+  .sc{font-family:Segoe UI,sans-serif;padding:10px 14px;width:100%;height:100%}
+  .sc-t{font-size:14px;font-weight:800;color:#1a2b4a;margin-bottom:2px}
+  .sc-st{font-size:10px;color:#8895a7;font-style:italic;margin-bottom:8px}
+  .sc-leg{display:flex;gap:12px;margin-bottom:10px}
+  .sc-leg-i{display:flex;align-items:center;gap:4px;font-size:11px;color:#5f6b7a;font-weight:600}
+  .sc-leg-d{width:10px;height:10px;border-radius:3px}
+  .sc-chart{display:flex;align-items:flex-end;justify-content:center;gap:36px;height:180px;border-bottom:1px solid #e8ecf0;padding-bottom:0}
+  .sc-col{display:flex;flex-direction:column;align-items:center;gap:0}
+  .sc-stack{display:flex;flex-direction:column;align-items:center;width:48px}
+  .sc-seg{width:100%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+  .sc-seg-f{border-radius:0 0 0 0;background:linear-gradient(to top,#0d1b30,#244181)}
+  .sc-seg-m{border-radius:6px 6px 0 0;background:linear-gradient(to top,#3a6bbf,#7aa8eb)}
+  .sc-total{font-size:10px;font-weight:800;color:#1a2b4a;margin-bottom:4px}
+  .sc-labels{display:flex;justify-content:center;gap:36px;margin-top:6px}
+  .sc-lbl{width:48px;text-align:center;font-size:10px;font-weight:700;color:#5f6b7a}
+  .sc-icon{font-size:14px;margin-bottom:2px}
+</style>
+<div class='sc'>
+  <div class='sc-t'>Causes of Injury by Gender</div>
+  <div class='sc-st'>What are the leading causes and how do they differ by gender?</div>
+  <div class='sc-leg'>
+    <div class='sc-leg-i'><div class='sc-leg-d' style='background:#244181'></div>Female</div>
+    <div class='sc-leg-i'><div class='sc-leg-d' style='background:#5a8fe0'></div>Male</div>
+  </div>
+  <div class='sc-chart'>
+    <div class='sc-col'>
+      <div class='sc-total'>" & FORMAT(_ContT, "#,0") & "</div>
+      <div class='sc-stack'>
+        <div class='sc-seg sc-seg-m' style='height:" & _HContM & "px'>" & FORMAT(_ContM, "#,0") & "</div>
+        <div class='sc-seg sc-seg-f' style='height:" & _HContF & "px'>" & FORMAT(_ContF, "#,0") & "</div>
+      </div>
+    </div>
+    <div class='sc-col'>
+      <div class='sc-total'>" & FORMAT(_NcT, "#,0") & "</div>
+      <div class='sc-stack'>
+        <div class='sc-seg sc-seg-m' style='height:" & _HNcM & "px'>" & FORMAT(_NcM, "#,0") & "</div>
+        <div class='sc-seg sc-seg-f' style='height:" & _HNcF & "px'>" & FORMAT(_NcF, "#,0") & "</div>
+      </div>
+    </div>
+    <div class='sc-col'>
+      <div class='sc-total'>" & FORMAT(_OvT, "#,0") & "</div>
+      <div class='sc-stack'>
+        <div class='sc-seg sc-seg-m' style='height:" & _HOvM & "px'>" & FORMAT(_OvM, "#,0") & "</div>
+        <div class='sc-seg sc-seg-f' style='height:" & _HOvF & "px'>" & FORMAT(_OvF, "#,0") & "</div>
+      </div>
+    </div>
+    <div class='sc-col'>
+      <div class='sc-total'>" & FORMAT(_FaT, "#,0") & "</div>
+      <div class='sc-stack'>
+        <div class='sc-seg sc-seg-m' style='height:" & _HFaM & "px'>" & FORMAT(_FaM, "#,0") & "</div>
+        <div class='sc-seg sc-seg-f' style='height:" & _HFaF & "px'>" & FORMAT(_FaF, "#,0") & "</div>
+      </div>
+    </div>
+  </div>
+  <div class='sc-labels'>
+    <div class='sc-lbl'>💥<br>Contact</div>
+    <div class='sc-lbl'>🏃<br>Non-contact</div>
+    <div class='sc-lbl'>🔄<br>Overuse</div>
+    <div class='sc-lbl'>⬇️<br>Fall</div>
+  </div>
+</div>"
