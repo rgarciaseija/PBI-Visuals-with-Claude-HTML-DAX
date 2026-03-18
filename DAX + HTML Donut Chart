@@ -1,0 +1,65 @@
+Recovery Outcome Donut = 
+VAR _Total = [Recorded Injuries]
+VAR _Full = CALCULATE([Recorded Injuries], DimTreatment[Outcome] = "Fully Recovered")
+VAR _Limit = CALCULATE([Recorded Injuries], DimTreatment[Outcome] = "Recovered with Limitation")
+VAR _Retired = CALCULATE([Recorded Injuries], DimTreatment[Outcome] = "Retired")
+VAR _FullPct = ROUND(DIVIDE(_Full, _Total, 0) * 100, 1)
+VAR _LimitPct = ROUND(DIVIDE(_Limit, _Total, 0) * 100, 1)
+VAR _RetiredPct = ROUND(DIVIDE(_Retired, _Total, 0) * 100, 1)
+VAR _Circ = 251.33
+VAR _FullArc = ROUND(_Circ * _FullPct / 100, 2)
+VAR _LimitArc = ROUND(_Circ * _LimitPct / 100, 2)
+VAR _RetiredArc = ROUND(_Circ * _RetiredPct / 100, 2)
+RETURN
+"<style>
+  .od{font-family:Segoe UI,sans-serif;padding:10px 14px;width:100%;height:100%;display:flex;flex-direction:column;align-items:center}
+  .od-t{font-size:14px;font-weight:800;color:#1a2b4a;margin-bottom:10px;align-self:flex-start}
+  .od-wrap{position:relative;width:140px;height:140px}
+  .od-svg{transform:rotate(-90deg)}
+  .od-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .od-cv{font-size:20px;font-weight:800;color:#1a2b4a}
+  .od-cl{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#8895a7;font-weight:700}
+  .od-leg{display:flex;flex-direction:column;gap:8px;margin-top:12px;align-self:flex-start;width:100%}
+  .od-leg-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .od-leg-left{display:flex;align-items:center;gap:6px}
+  .od-leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+  .od-leg-name{font-size:12px;font-weight:600;color:#1a2b4a}
+  .od-leg-right{display:flex;align-items:center;gap:8px}
+  .od-leg-pct{font-size:12px;font-weight:800;color:#1a2b4a}
+  .od-leg-val{font-size:12px;color:#8895a7;font-weight:500}
+</style>
+<div class='od'>
+  <div class='od-t'>Recovery Outcome</div>
+  <div class='od-wrap'>
+    <svg class='od-svg' viewBox='0 0 100 100' width='140' height='140'>
+      <circle cx='50' cy='50' r='40' fill='none' stroke='#e8ecf0' stroke-width='10'/>
+      <circle cx='50' cy='50' r='40' fill='none' stroke='#22c55e' stroke-width='10'
+        stroke-dasharray='" & _FullArc & " " & (_Circ - _FullArc) & "'
+        stroke-dashoffset='0'/>
+      <circle cx='50' cy='50' r='40' fill='none' stroke='#F59E0B' stroke-width='10'
+        stroke-dasharray='" & _LimitArc & " " & (_Circ - _LimitArc) & "'
+        stroke-dashoffset='-" & _FullArc & "'/>
+      <circle cx='50' cy='50' r='40' fill='none' stroke='#D93025' stroke-width='10'
+        stroke-dasharray='" & _RetiredArc & " " & (_Circ - _RetiredArc) & "'
+        stroke-dashoffset='-" & ROUND(_FullArc + _LimitArc, 2) & "'/>
+    </svg>
+    <div class='od-center'>
+      <div class='od-cv'>" & FORMAT(_Total, "#,0") & "</div>
+      <div class='od-cl'>Total</div>
+    </div>
+  </div>
+  <div class='od-leg'>
+    <div class='od-leg-row'>
+      <div class='od-leg-left'><div class='od-leg-dot' style='background:#22c55e'></div><div class='od-leg-name'>Fully Recovered</div></div>
+      <div class='od-leg-right'><div class='od-leg-val'>" & FORMAT(_Full, "#,0") & "</div><div class='od-leg-pct'>" & FORMAT(_FullPct, "0.0") & "%</div></div>
+    </div>
+    <div class='od-leg-row'>
+      <div class='od-leg-left'><div class='od-leg-dot' style='background:#F59E0B'></div><div class='od-leg-name'>With Limitation</div></div>
+      <div class='od-leg-right'><div class='od-leg-val'>" & FORMAT(_Limit, "#,0") & "</div><div class='od-leg-pct'>" & FORMAT(_LimitPct, "0.0") & "%</div></div>
+    </div>
+    <div class='od-leg-row'>
+      <div class='od-leg-left'><div class='od-leg-dot' style='background:#D93025'></div><div class='od-leg-name'>Retired</div></div>
+      <div class='od-leg-right'><div class='od-leg-val'>" & FORMAT(_Retired, "#,0") & "</div><div class='od-leg-pct'>" & FORMAT(_RetiredPct, "0.0") & "%</div></div>
+    </div>
+  </div>
+</div>"
