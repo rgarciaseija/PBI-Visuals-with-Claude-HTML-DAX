@@ -1,0 +1,98 @@
+Injury Risk by Sport Visual = 
+// Football
+VAR _FtTotal = CALCULATE([Players], DimClub[Sport] = "Football")
+VAR _FtCrit = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Football", DimPlayer[InjuryRisk] = "Critical Risk"), _FtTotal, 0) * 100, 0)
+VAR _FtHigh = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Football", DimPlayer[InjuryRisk] = "High Risk"), _FtTotal, 0) * 100, 0)
+VAR _FtMod = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Football", DimPlayer[InjuryRisk] = "Moderate Risk"), _FtTotal, 0) * 100, 0)
+VAR _FtLow = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Football", DimPlayer[InjuryRisk] = "Low Risk"), _FtTotal, 0) * 100, 0)
+// Boxing
+VAR _BxTotal = CALCULATE([Players], DimClub[Sport] = "Boxing")
+VAR _BxCrit = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Boxing", DimPlayer[InjuryRisk] = "Critical Risk"), _BxTotal, 0) * 100, 0)
+VAR _BxHigh = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Boxing", DimPlayer[InjuryRisk] = "High Risk"), _BxTotal, 0) * 100, 0)
+VAR _BxMod = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Boxing", DimPlayer[InjuryRisk] = "Moderate Risk"), _BxTotal, 0) * 100, 0)
+VAR _BxLow = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Boxing", DimPlayer[InjuryRisk] = "Low Risk"), _BxTotal, 0) * 100, 0)
+// Athletics
+VAR _AtTotal = CALCULATE([Players], DimClub[Sport] = "Athletics")
+VAR _AtCrit = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Athletics", DimPlayer[InjuryRisk] = "Critical Risk"), _AtTotal, 0) * 100, 0)
+VAR _AtHigh = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Athletics", DimPlayer[InjuryRisk] = "High Risk"), _AtTotal, 0) * 100, 0)
+VAR _AtMod = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Athletics", DimPlayer[InjuryRisk] = "Moderate Risk"), _AtTotal, 0) * 100, 0)
+VAR _AtLow = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Athletics", DimPlayer[InjuryRisk] = "Low Risk"), _AtTotal, 0) * 100, 0)
+// Basketball
+VAR _BkTotal = CALCULATE([Players], DimClub[Sport] = "Basketball")
+VAR _BkCrit = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Basketball", DimPlayer[InjuryRisk] = "Critical Risk"), _BkTotal, 0) * 100, 0)
+VAR _BkHigh = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Basketball", DimPlayer[InjuryRisk] = "High Risk"), _BkTotal, 0) * 100, 0)
+VAR _BkMod = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Basketball", DimPlayer[InjuryRisk] = "Moderate Risk"), _BkTotal, 0) * 100, 0)
+VAR _BkLow = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Basketball", DimPlayer[InjuryRisk] = "Low Risk"), _BkTotal, 0) * 100, 0)
+// Tennis
+VAR _TnTotal = CALCULATE([Players], DimClub[Sport] = "Tennis")
+VAR _TnCrit = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Tennis", DimPlayer[InjuryRisk] = "Critical Risk"), _TnTotal, 0) * 100, 0)
+VAR _TnHigh = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Tennis", DimPlayer[InjuryRisk] = "High Risk"), _TnTotal, 0) * 100, 0)
+VAR _TnMod = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Tennis", DimPlayer[InjuryRisk] = "Moderate Risk"), _TnTotal, 0) * 100, 0)
+VAR _TnLow = ROUND(DIVIDE(CALCULATE([Players], DimClub[Sport] = "Tennis", DimPlayer[InjuryRisk] = "Low Risk"), _TnTotal, 0) * 100, 0)
+RETURN
+"<style>
+  .rs{font-family:Segoe UI,sans-serif;padding:10px 14px;width:100%;height:100%}
+  .rs-t{font-size:13px;font-weight:700;color:#1a2b4a;margin-bottom:6px}
+  .rs-leg{display:flex;gap:8px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #e8ecf0}
+  .rs-leg-i{display:flex;align-items:center;gap:3px;font-size:8px;color:#8895a7;font-weight:600}
+  .rs-leg-d{width:8px;height:8px;border-radius:2px}
+  .rs-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .rs-name{font-size:11px;font-weight:700;color:#1a2b4a;width:72px;flex-shrink:0}
+  .rs-bar{flex:1;height:26px;display:flex;border-radius:6px;overflow:hidden;gap:1px}
+  .rs-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;white-space:nowrap}
+</style>
+<div class='rs'>
+  <div class='rs-t'>Injury Risk by Sport</div>
+  <div class='rs-leg'>
+    <div class='rs-leg-i'><div class='rs-leg-d' style='background:#D93025'></div>Critical</div>
+    <div class='rs-leg-i'><div class='rs-leg-d' style='background:#F59E0B'></div>High</div>
+    <div class='rs-leg-i'><div class='rs-leg-d' style='background:#3B82F6'></div>Moderate</div>
+    <div class='rs-leg-i'><div class='rs-leg-d' style='background:#22C55E'></div>Low</div>
+  </div>
+
+  <div class='rs-row'>
+    <div class='rs-name'>Football</div>
+    <div class='rs-bar'>
+      <div class='rs-seg' style='flex:" & _FtCrit & ";background:#D93025'>" & _FtCrit & "%</div>
+      <div class='rs-seg' style='flex:" & _FtHigh & ";background:#F59E0B'>" & _FtHigh & "%</div>
+      <div class='rs-seg' style='flex:" & _FtMod & ";background:#3B82F6'>" & _FtMod & "%</div>
+      <div class='rs-seg' style='flex:" & _FtLow & ";background:#22C55E'>" & _FtLow & "%</div>
+    </div>
+  </div>
+  <div class='rs-row'>
+    <div class='rs-name'>Boxing</div>
+    <div class='rs-bar'>
+      <div class='rs-seg' style='flex:" & _BxCrit & ";background:#D93025'>" & _BxCrit & "%</div>
+      <div class='rs-seg' style='flex:" & _BxHigh & ";background:#F59E0B'>" & _BxHigh & "%</div>
+      <div class='rs-seg' style='flex:" & _BxMod & ";background:#3B82F6'>" & _BxMod & "%</div>
+      <div class='rs-seg' style='flex:" & _BxLow & ";background:#22C55E'>" & _BxLow & "%</div>
+    </div>
+  </div>
+  <div class='rs-row'>
+    <div class='rs-name'>Athletics</div>
+    <div class='rs-bar'>
+      <div class='rs-seg' style='flex:" & _AtCrit & ";background:#D93025'>" & _AtCrit & "%</div>
+      <div class='rs-seg' style='flex:" & _AtHigh & ";background:#F59E0B'>" & _AtHigh & "%</div>
+      <div class='rs-seg' style='flex:" & _AtMod & ";background:#3B82F6'>" & _AtMod & "%</div>
+      <div class='rs-seg' style='flex:" & _AtLow & ";background:#22C55E'>" & _AtLow & "%</div>
+    </div>
+  </div>
+  <div class='rs-row'>
+    <div class='rs-name'>Basketball</div>
+    <div class='rs-bar'>
+      <div class='rs-seg' style='flex:" & _BkCrit & ";background:#D93025'>" & _BkCrit & "%</div>
+      <div class='rs-seg' style='flex:" & _BkHigh & ";background:#F59E0B'>" & _BkHigh & "%</div>
+      <div class='rs-seg' style='flex:" & _BkMod & ";background:#3B82F6'>" & _BkMod & "%</div>
+      <div class='rs-seg' style='flex:" & _BkLow & ";background:#22C55E'>" & _BkLow & "%</div>
+    </div>
+  </div>
+  <div class='rs-row'>
+    <div class='rs-name'>Tennis</div>
+    <div class='rs-bar'>
+      <div class='rs-seg' style='flex:" & _TnCrit & ";background:#D93025'>" & _TnCrit & "%</div>
+      <div class='rs-seg' style='flex:" & _TnHigh & ";background:#F59E0B'>" & _TnHigh & "%</div>
+      <div class='rs-seg' style='flex:" & _TnMod & ";background:#3B82F6'>" & _TnMod & "%</div>
+      <div class='rs-seg' style='flex:" & _TnLow & ";background:#22C55E'>" & _TnLow & "%</div>
+    </div>
+  </div>
+</div>"
