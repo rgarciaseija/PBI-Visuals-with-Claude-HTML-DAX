@@ -1,0 +1,72 @@
+Injury Cause Gender column Chart = 
+VAR _Total = [Recorded Injuries]
+// Contact
+VAR _ContF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Contact", DimPlayer[Gender] = "Female")
+VAR _ContM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Contact", DimPlayer[Gender] = "Male")
+// Non-contact
+VAR _NcF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Non-contact", DimPlayer[Gender] = "Female")
+VAR _NcM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Non-contact", DimPlayer[Gender] = "Male")
+// Overuse
+VAR _OvF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Overuse", DimPlayer[Gender] = "Female")
+VAR _OvM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Overuse", DimPlayer[Gender] = "Male")
+// Fall
+VAR _FaF = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Fall", DimPlayer[Gender] = "Female")
+VAR _FaM = CALCULATE([Recorded Injuries], DimInjuryType[InjuryCause] = "Fall", DimPlayer[Gender] = "Male")
+// Max for scaling
+VAR _Max = MAX(_ContF, MAX(_ContM, MAX(_NcF, MAX(_NcM, MAX(_OvF, MAX(_OvM, MAX(_FaF, _FaM)))))))
+VAR _Scale = 150
+VAR _HContF = ROUND(DIVIDE(_ContF, _Max, 0) * _Scale, 0)
+VAR _HContM = ROUND(DIVIDE(_ContM, _Max, 0) * _Scale, 0)
+VAR _HNcF = ROUND(DIVIDE(_NcF, _Max, 0) * _Scale, 0)
+VAR _HNcM = ROUND(DIVIDE(_NcM, _Max, 0) * _Scale, 0)
+VAR _HOvF = ROUND(DIVIDE(_OvF, _Max, 0) * _Scale, 0)
+VAR _HOvM = ROUND(DIVIDE(_OvM, _Max, 0) * _Scale, 0)
+VAR _HFaF = ROUND(DIVIDE(_FaF, _Max, 0) * _Scale, 0)
+VAR _HFaM = ROUND(DIVIDE(_FaM, _Max, 0) * _Scale, 0)
+RETURN
+"<style>
+  .gc{font-family:Segoe UI,sans-serif;padding:10px 14px;width:100%;height:100%}
+  .gc-t{font-size:14px;font-weight:800;color:#1a2b4a;margin-bottom:2px}
+  .gc-st{font-size:12px;color:#8895a7;font-style:italic;margin-bottom:8px}
+  .gc-leg{display:flex;gap:12px;margin-bottom:10px}
+  .gc-leg-i{display:flex;align-items:center;gap:4px;font-size:12px;color:#5f6b7a;font-weight:600}
+  .gc-leg-d{width:10px;height:10px;border-radius:3px}
+  .gc-chart{display:flex;align-items:flex-end;justify-content:center;gap:35px;height:180px;border-bottom:1px solid #e8ecf0}
+  .gc-group{display:flex;align-items:flex-end;gap:4px}
+  .gc-bar{width:32px;border-radius:6px 6px 0 0;position:relative;min-height:4px}
+  .gc-bar-val{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;color:#1a2b4a;white-space:nowrap}
+  .gc-labels{display:flex;justify-content:center;gap:35px;margin-top:6px}
+  .gc-lbl{width:68px;text-align:center;font-size:12px;font-weight:700;color:#5f6b7a}
+</style>
+<div class='gc'>
+  <div class='gc-t'>Causes of Injury by Gender</div>
+  <div class='gc-st'>What are the leading causes and how do they differ by gender?</div>
+  <div class='gc-leg'>
+    <div class='gc-leg-i'><div class='gc-leg-d' style='background:#244181'></div>Female</div>
+    <div class='gc-leg-i'><div class='gc-leg-d' style='background:#7aa8eb'></div>Male</div>
+  </div>
+  <div class='gc-chart'>
+    <div class='gc-group'>
+      <div class='gc-bar' style='height:" & _HContF & "px;background:linear-gradient(to top,#0d1b30,#244181)'><div class='gc-bar-val'>" & FORMAT(_ContF, "#,0") & "</div></div>
+      <div class='gc-bar' style='height:" & _HContM & "px;background:linear-gradient(to top,#3a6bbf,#7aa8eb)'><div class='gc-bar-val'>" & FORMAT(_ContM, "#,0") & "</div></div>
+    </div>
+    <div class='gc-group'>
+      <div class='gc-bar' style='height:" & _HNcF & "px;background:linear-gradient(to top,#0d1b30,#244181)'><div class='gc-bar-val'>" & FORMAT(_NcF, "#,0") & "</div></div>
+      <div class='gc-bar' style='height:" & _HNcM & "px;background:linear-gradient(to top,#3a6bbf,#7aa8eb)'><div class='gc-bar-val'>" & FORMAT(_NcM, "#,0") & "</div></div>
+    </div>
+    <div class='gc-group'>
+      <div class='gc-bar' style='height:" & _HOvF & "px;background:linear-gradient(to top,#0d1b30,#244181)'><div class='gc-bar-val'>" & FORMAT(_OvF, "#,0") & "</div></div>
+      <div class='gc-bar' style='height:" & _HOvM & "px;background:linear-gradient(to top,#3a6bbf,#7aa8eb)'><div class='gc-bar-val'>" & FORMAT(_OvM, "#,0") & "</div></div>
+    </div>
+    <div class='gc-group'>
+      <div class='gc-bar' style='height:" & _HFaF & "px;background:linear-gradient(to top,#0d1b30,#244181)'><div class='gc-bar-val'>" & FORMAT(_FaF, "#,0") & "</div></div>
+      <div class='gc-bar' style='height:" & _HFaM & "px;background:linear-gradient(to top,#3a6bbf,#7aa8eb)'><div class='gc-bar-val'>" & FORMAT(_FaM, "#,0") & "</div></div>
+    </div>
+  </div>
+  <div class='gc-labels'>
+    <div class='gc-lbl'>💥 Contact</div>
+    <div class='gc-lbl'>🏃 Non-contact</div>
+    <div class='gc-lbl'>🔄 Overuse</div>
+    <div class='gc-lbl'>⬇️ Fall</div>
+  </div>
+</div>"
