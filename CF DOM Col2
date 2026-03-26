@@ -1,0 +1,35 @@
+CF DOM Col2 = 
+VAR _d = F_Properties[days_on_market]
+
+VAR Label =
+    FORMAT(_d, "#,##0") & "d"
+
+VAR TextColor =
+    SWITCH(TRUE(),
+        _d < 30,  "%23067585",
+        _d < 120, "%238a6000",
+        _d < 300, "%23c04040",
+        "%23666666")
+
+VAR BorderColor =
+    SWITCH(TRUE(),
+        _d < 30,  "%2352b4bf",
+        _d < 120, "%23f5a623",
+        _d < 300, "%23e07b7b",
+        "%23cccccc")
+
+VAR BgColor =
+    SWITCH(TRUE(),
+        _d < 30,  "%23e8f7f8",
+        _d < 120, "%23fffbf0",
+        _d < 300, "%23fff5f5",
+        "%23f5f5f5")
+
+VAR BadgeWidth = "48"
+
+RETURN
+"data:image/svg+xml;utf8," &
+"<svg xmlns='http://www.w3.org/2000/svg' width='" & BadgeWidth & "' height='22'>" &
+    "<rect x='1' y='1' width='" & (VALUE(BadgeWidth) - 2) & "' height='20' rx='4' fill='" & BgColor & "' stroke='" & BorderColor & "' stroke-width='1.5'/>" &
+    "<text x='" & DIVIDE(VALUE(BadgeWidth), 2) & "' y='15' font-family='Segoe UI,sans-serif' font-size='9.5' font-weight='700' fill='" & TextColor & "' text-anchor='middle' letter-spacing='0.3'>" & Label & "</text>" &
+"</svg>"
