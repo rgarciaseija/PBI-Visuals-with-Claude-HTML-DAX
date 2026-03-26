@@ -1,0 +1,41 @@
+CF Amenities Col = 
+VAR _pk = F_Properties[parking_spots]
+VAR _gm = F_Properties[gym]
+VAR _sw = F_Properties[swimming_pool]
+VAR _el = F_Properties[elevator]
+
+VAR _pkC = IF(_pk > 0,    "%23089BAB", "%23cccccc")
+VAR _gmC = IF(_gm = "Yes","%23089BAB", "%23cccccc")
+VAR _swC = IF(_sw = "Yes","%23089BAB", "%23cccccc")
+VAR _elC = IF(_el = "Yes","%23089BAB", "%23cccccc")
+
+VAR _pkBg = IF(_pk > 0,    "%23e8f7f8", "%23f5f5f5")
+VAR _gmBg = IF(_gm = "Yes","%23e8f7f8", "%23f5f5f5")
+VAR _swBg = IF(_sw = "Yes","%23e8f7f8", "%23f5f5f5")
+VAR _elBg = IF(_el = "Yes","%23e8f7f8", "%23f5f5f5")
+
+VAR _pkMark = IF(_pk > 0,    "M4 10 L7 13 L12 7", "M5 5 L13 13 M13 5 L5 13")
+VAR _gmMark = IF(_gm = "Yes","M4 10 L7 13 L12 7", "M5 5 L13 13 M13 5 L5 13")
+VAR _swMark = IF(_sw = "Yes","M4 10 L7 13 L12 7", "M5 5 L13 13 M13 5 L5 13")
+VAR _elMark = IF(_el = "Yes","M4 10 L7 13 L12 7", "M5 5 L13 13 M13 5 L5 13")
+
+VAR _size = "18"
+VAR _gap  = "22"
+
+RETURN
+"data:image/svg+xml;utf8," &
+"<svg xmlns='http://www.w3.org/2000/svg' width='92' height='22'>" &
+
+    "<rect x='1' y='2' width='" & _size & "' height='" & _size & "' rx='4' fill='" & _pkBg & "' stroke='" & _pkC & "' stroke-width='1.5'/>" &
+    "<path d='" & _pkMark & "' stroke='" & _pkC & "' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/>" &
+
+    "<rect x='" & (1 + VALUE(_gap)) & "' y='2' width='" & _size & "' height='" & _size & "' rx='4' fill='" & _gmBg & "' stroke='" & _gmC & "' stroke-width='1.5'/>" &
+    "<path d='" & _gmMark & "' transform='translate(" & VALUE(_gap) & ",0)' stroke='" & _gmC & "' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/>" &
+
+    "<rect x='" & (1 + VALUE(_gap) * 2) & "' y='2' width='" & _size & "' height='" & _size & "' rx='4' fill='" & _swBg & "' stroke='" & _swC & "' stroke-width='1.5'/>" &
+    "<path d='" & _swMark & "' transform='translate(" & VALUE(_gap) * 2 & ",0)' stroke='" & _swC & "' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/>" &
+
+    "<rect x='" & (1 + VALUE(_gap) * 3) & "' y='2' width='" & _size & "' height='" & _size & "' rx='4' fill='" & _elBg & "' stroke='" & _elC & "' stroke-width='1.5'/>" &
+    "<path d='" & _elMark & "' transform='translate(" & VALUE(_gap) * 3 & ",0)' stroke='" & _elC & "' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/>" &
+
+"</svg>"
