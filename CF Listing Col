@@ -1,0 +1,23 @@
+CF Listing Col = 
+VAR _l = F_Properties[listing_type]
+
+VAR Label = _l
+
+VAR TextColor =
+    IF(_l = "Rental", "%23067585", "%238a6000")
+
+VAR BorderColor =
+    IF(_l = "Rental", "%23089BAB", "%23f5a623")
+
+VAR BgColor =
+    IF(_l = "Rental", "%23e8f7f8", "%23fff8ec")
+
+VAR BadgeWidth =
+    IF(_l = "Rental", "58", "46")
+
+RETURN
+"data:image/svg+xml;utf8," &
+"<svg xmlns='http://www.w3.org/2000/svg' width='" & BadgeWidth & "' height='22'>" &
+    "<rect x='1' y='1' width='" & (VALUE(BadgeWidth) - 2) & "' height='20' rx='10' fill='" & BgColor & "' stroke='" & BorderColor & "' stroke-width='1.5'/>" &
+    "<text x='" & DIVIDE(VALUE(BadgeWidth), 2) & "' y='15' font-family='Segoe UI,sans-serif' font-size='9.5' font-weight='700' fill='" & TextColor & "' text-anchor='middle' letter-spacing='0.3'>" & Label & "</text>" &
+"</svg>"
