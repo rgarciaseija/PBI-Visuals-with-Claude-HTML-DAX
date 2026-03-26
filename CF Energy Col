@@ -1,0 +1,31 @@
+CF Energy Col = 
+VAR _e = F_Properties[energy_rating]
+
+VAR Label = _e
+
+VAR TextColor =
+    SWITCH(_e,
+        "A", "%231a5e36", "B", "%231a5e36", "C", "%231a4a6a",
+        "D", "%237a5020", "E", "%237a3010", "F", "%236a2a10",
+        "G", "%238a1010", "%23333333")
+
+VAR BorderColor =
+    SWITCH(_e,
+        "A", "%2327AE60", "B", "%2352BE80", "C", "%2385C1E9",
+        "D", "%23F5CBA7", "E", "%23F0B27A", "F", "%23E59866",
+        "G", "%23E74C3C", "%23cccccc")
+
+VAR BgColor =
+    SWITCH(_e,
+        "A", "%23d5f0e0", "B", "%23e8f7ed", "C", "%23ddeef8",
+        "D", "%23fdf3e7", "E", "%23fdebd0", "F", "%23fad7b5",
+        "G", "%23fad3d0", "%23f5f5f5")
+
+VAR BadgeWidth = "28"
+
+RETURN
+"data:image/svg+xml;utf8," &
+"<svg xmlns='http://www.w3.org/2000/svg' width='" & BadgeWidth & "' height='22'>" &
+    "<rect x='1' y='1' width='" & (VALUE(BadgeWidth) - 2) & "' height='20' rx='4' fill='" & BgColor & "' stroke='" & BorderColor & "' stroke-width='1.5'/>" &
+    "<text x='" & DIVIDE(VALUE(BadgeWidth), 2) & "' y='15' font-family='Segoe UI,sans-serif' font-size='9.5' font-weight='700' fill='" & TextColor & "' text-anchor='middle' letter-spacing='0.5'>" & Label & "</text>" &
+"</svg>"
