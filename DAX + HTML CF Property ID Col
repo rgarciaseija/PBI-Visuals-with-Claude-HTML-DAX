@@ -1,0 +1,38 @@
+CF Property ID Col = 
+VAR _id = F_Properties[property_id]
+VAR _width =
+    MAX(110, LEN(_id) * 7 + 30)   -- dynamic width (prevents text overflow)
+
+RETURN
+"data:image/svg+xml;utf8," &
+
+"<svg xmlns='http://www.w3.org/2000/svg' 
+     width='" & _width & "' 
+     height='22' 
+     viewBox='0 0 " & _width & " 22'>" &
+
+    "<rect 
+        x='1' y='1' 
+        width='" & (_width - 2) & "' 
+        height='20' 
+        rx='5' ry='5'
+        fill='#f4f1ec' 
+        stroke='#d8d0c8' 
+        stroke-width='1.2'/>" &
+
+    "<text 
+        x='" & DIVIDE(_width, 2) & "' 
+        y='14.5' 
+        font-family='Courier New, monospace' 
+        font-size='9.5' 
+        font-weight='700' 
+        fill='#5f7f7f' 
+        text-anchor='middle' 
+        dominant-baseline='middle'
+        letter-spacing='0.5'>" 
+
+        & _id & 
+
+    "</text>" &
+
+"</svg>"
