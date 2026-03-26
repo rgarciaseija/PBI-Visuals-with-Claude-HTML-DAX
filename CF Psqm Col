@@ -1,0 +1,34 @@
+CF Psqm Col = 
+VAR _p = F_Properties[price_per_sqm]
+
+VAR Label = "€" & FORMAT(_p, "#,##0")
+
+VAR TextColor =
+    SWITCH(TRUE(),
+        _p < 2000, "%231c2b2b",
+        _p < 3000, "%23ffffff",
+        "%23ffffff")
+
+VAR BorderColor =
+    SWITCH(TRUE(),
+        _p < 1000, "%23d8d8d8",
+        _p < 2000, "%2352B4BF",
+        _p < 3000, "%2320A3B1",
+        "%23067585")
+
+VAR BgColor =
+    SWITCH(TRUE(),
+        _p < 1000, "%23E8E8E8",
+        _p < 2000, "%239DCED3",
+        _p < 3000, "%2352B4BF",
+        _p < 4000, "%2320A3B1",
+        "%23089BAB")
+
+VAR BadgeWidth = "62"
+
+RETURN
+"data:image/svg+xml;utf8," &
+"<svg xmlns='http://www.w3.org/2000/svg' width='" & BadgeWidth & "' height='22'>" &
+    "<rect x='1' y='1' width='" & (VALUE(BadgeWidth) - 2) & "' height='20' rx='4' fill='" & BgColor & "' stroke='" & BorderColor & "' stroke-width='1.5'/>" &
+    "<text x='" & DIVIDE(VALUE(BadgeWidth), 2) & "' y='15' font-family='Segoe UI,sans-serif' font-size='9.5' font-weight='700' fill='" & TextColor & "' text-anchor='middle' letter-spacing='0.3'>" & Label & "</text>" &
+"</svg>"
