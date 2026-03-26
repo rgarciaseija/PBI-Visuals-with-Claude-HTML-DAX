@@ -1,0 +1,35 @@
+CF Furnishing Col = 
+VAR _f = F_Properties[furnishing_status]
+
+VAR Label = _f
+
+VAR TextColor =
+    SWITCH(_f,
+        "Furnished",      "%23067585",
+        "Semi-Furnished", "%238a6000",
+        "%234a6666")
+
+VAR BorderColor =
+    SWITCH(_f,
+        "Furnished",      "%23089BAB",
+        "Semi-Furnished", "%23f5a623",
+        "%23d8d0c8")
+
+VAR BgColor =
+    SWITCH(_f,
+        "Furnished",      "%23e8f7f8",
+        "Semi-Furnished", "%23fffbf0",
+        "%23ece8e0")
+
+VAR BadgeWidth =
+    SWITCH(_f,
+        "Furnished",      "70",
+        "Semi-Furnished", "100",
+        "88")
+
+RETURN
+"data:image/svg+xml;utf8," &
+"<svg xmlns='http://www.w3.org/2000/svg' width='" & BadgeWidth & "' height='22'>" &
+    "<rect x='1' y='1' width='" & (VALUE(BadgeWidth) - 2) & "' height='20' rx='10' fill='" & BgColor & "' stroke='" & BorderColor & "' stroke-width='1.5'/>" &
+    "<text x='" & DIVIDE(VALUE(BadgeWidth), 2) & "' y='15' font-family='Segoe UI,sans-serif' font-size='9.5' font-weight='700' fill='" & TextColor & "' text-anchor='middle' letter-spacing='0.3'>" & Label & "</text>" &
+"</svg>"
