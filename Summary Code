@@ -1,0 +1,41 @@
+Listing Trend Summary = 
+VAR SelectedYear = SELECTEDVALUE('D_Date'[Year])
+VAR HasSelection = NOT ISBLANK(SelectedYear)
+
+VAR CompareYear = IF(HasSelection, SelectedYear, MAXX(ALL('D_Date'[Year]), 'D_Date'[Year]))
+VAR BaseYear = 2020
+
+VAR CompareCount = 
+    CALCULATE(
+        COUNTROWS(F_Properties),
+        'D_Date'[Year] = CompareYear
+    )
+
+VAR BaseCount = 
+    CALCULATE(
+        COUNTROWS(F_Properties),
+        'D_Date'[Year] = BaseYear
+    )
+
+VAR AbsDiff = ABS(CompareCount - BaseCount)
+VAR PctChange = DIVIDE(CompareCount - BaseCount, BaseCount)
+VAR AbsPct = ABS(PctChange)
+VAR Direction = IF(PctChange >= 0, "up", "down")
+VAR Arrow = IF(PctChange >= 0, "▲", "▼")
+
+RETURN
+IF(
+    CompareYear = BaseYear,
+    "Baseline year selected. A total of " & FORMAT(BaseCount, "#,##0") 
+    & " properties were listed in " & BaseYear & ".",
+
+    "Overall listings went from " & FORMAT(BaseCount, "#,##0") 
+    & " in " & BaseYear 
+    & " to " & FORMAT(CompareCount, "#,##0") 
+    & " in " & CompareYear 
+    & ", making listings " & Direction & " by " 
+    & FORMAT(AbsDiff, "#,##0") 
+    & " properties " & Arrow & " " 
+    & FORMAT(AbsPct, "0.0%") 
+    & " since " & BaseYear & "."
+)
