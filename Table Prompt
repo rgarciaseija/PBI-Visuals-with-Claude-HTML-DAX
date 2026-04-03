@@ -1,0 +1,12 @@
+Create a conditional formatting solution in Power BI using DAX and HTML SVG for the Customers[Type] column. 
+
+The values (Customer, Investor, Partner) should display as pill-style labels with dynamic background colors: 
+Customer #D5ECC2, 
+Investor #98DDCA, 
+and Partner #FFD3B4. 
+
+The text should be centered, dark-colored for readability, and placed inside a rounded rectangle with clean padding. 
+
+The rectangle must have a fixed width that fits up to 8 characters to ensure consistency across all rows.
+
+Use sample style
